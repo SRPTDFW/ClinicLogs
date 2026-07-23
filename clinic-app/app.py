@@ -13,6 +13,8 @@ app.config['SECRET_KEY'] = os.environ.get('SECRET_KEY', 'change-me-in-production
 db_url = os.environ.get('DATABASE_URL', 'sqlite:///clinic.db')
 if db_url.startswith('postgres://'):  # some providers hand out the old-style URL
     db_url = db_url.replace('postgres://', 'postgresql://', 1)
+if db_url.startswith('postgresql://') and '+psycopg' not in db_url:
+    db_url = db_url.replace('postgresql://', 'postgresql+psycopg://', 1)
 app.config['SQLALCHEMY_DATABASE_URI'] = db_url
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 
